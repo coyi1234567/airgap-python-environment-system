@@ -1,0 +1,16 @@
+# Pip本地镜像源配置模板
+# 此文件用于配置pip使用本地包仓库
+
+[global]
+index-url = http://localhost:8081/simple/
+trusted-host = localhost
+timeout = 300
+retries = 3
+
+[install]
+trusted-host = localhost
+
+# 本地包仓库配置
+# 确保本地服务器运行在端口8081
+# 本地包路径: ./downloads/pip-packages
+

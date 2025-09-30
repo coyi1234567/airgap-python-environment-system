@@ -1,0 +1,185 @@
+{
+  "model_configurations": {
+    "chatglm": {
+      "models": {
+        "chatglm3-6b": {
+          "model_id": "THUDM/chatglm3-6b",
+          "model_type": "chatglm",
+          "size_gb": 12,
+          "requirements": {
+            "torch": ">=2.0.0",
+            "transformers": ">=4.30.0",
+            "cpm-kernels": ">=1.0.11"
+          },
+          "quantization": ["4bit", "8bit", "gptq"],
+          "inference_engines": ["transformers", "vllm", "chatglm-cpp"]
+        },
+        "chatglm3-32b": {
+          "model_id": "THUDM/chatglm3-32b",
+          "model_type": "chatglm",
+          "size_gb": 64,
+          "requirements": {
+            "torch": ">=2.0.0",
+            "transformers": ">=4.30.0",
+            "cpm-kernels": ">=1.0.11"
+          },
+          "quantization": ["4bit", "8bit", "gptq"],
+          "inference_engines": ["transformers", "vllm"]
+        }
+      }
+    },
+    "deepseek": {
+      "models": {
+        "deepseek-coder-6.7b": {
+          "model_id": "deepseek-ai/deepseek-coder-6.7b-instruct",
+          "model_type": "deepseek",
+          "size_gb": 13,
+          "requirements": {
+            "torch": ">=2.0.0",
+            "transformers": ">=4.30.0",
+            "flash-attn": ">=2.3.0"
+          },
+          "quantization": ["4bit", "8bit", "gptq"],
+          "inference_engines": ["transformers", "vllm"]
+        },
+        "deepseek-llm-7b": {
+          "model_id": "deepseek-ai/deepseek-llm-7b-chat",
+          "model_type": "deepseek",
+          "size_gb": 14,
+          "requirements": {
+            "torch": ">=2.0.0",
+            "transformers": ">=4.30.0",
+            "flash-attn": ">=2.3.0"
+          },
+          "quantization": ["4bit", "8bit", "gptq"],
+          "inference_engines": ["transformers", "vllm"]
+        }
+      }
+    },
+    "qwen": {
+      "models": {
+        "qwen-7b-chat": {
+          "model_id": "Qwen/Qwen-7B-Chat",
+          "model_type": "qwen",
+          "size_gb": 14,
+          "requirements": {
+            "torch": ">=2.0.0",
+            "transformers": ">=4.30.0",
+            "flash-attn": ">=2.3.0"
+          },
+          "quantization": ["4bit", "8bit", "gptq"],
+          "inference_engines": ["transformers", "vllm"]
+        },
+        "qwen-14b-chat": {
+          "model_id": "Qwen/Qwen-14B-Chat",
+          "model_type": "qwen",
+          "size_gb": 28,
+          "requirements": {
+            "torch": ">=2.0.0",
+            "transformers": ">=4.30.0",
+            "flash-attn": ">=2.3.0"
+          },
+          "quantization": ["4bit", "8bit", "gptq"],
+          "inference_engines": ["transformers", "vllm"]
+        },
+        "qwen-vl-7b": {
+          "model_id": "Qwen/Qwen-VL-7B-Chat",
+          "model_type": "qwen-vl",
+          "size_gb": 14,
+          "requirements": {
+            "torch": ">=2.0.0",
+            "transformers": ">=4.30.0",
+            "flash-attn": ">=2.3.0",
+            "opencv-python": ">=4.8.0",
+            "pillow": ">=10.0.0"
+          },
+          "quantization": ["4bit", "8bit", "gptq"],
+          "inference_engines": ["transformers", "vllm"]
+        }
+      }
+    },
+    "bert": {
+      "models": {
+        "bert-base-chinese": {
+          "model_id": "bert-base-chinese",
+          "model_type": "bert",
+          "size_gb": 0.4,
+          "requirements": {
+            "torch": ">=2.0.0",
+            "transformers": ">=4.30.0",
+            "tokenizers": ">=0.13.0"
+          },
+          "quantization": ["8bit", "dynamic"],
+          "inference_engines": ["transformers", "onnx"]
+        },
+        "bert-large-chinese": {
+          "model_id": "bert-large-chinese",
+          "model_type": "bert",
+          "size_gb": 1.3,
+          "requirements": {
+            "torch": ">=2.0.0",
+            "transformers": ">=4.30.0",
+            "tokenizers": ">=0.13.0"
+          },
+          "quantization": ["8bit", "dynamic"],
+          "inference_engines": ["transformers", "onnx"]
+        }
+      }
+    }
+  },
+  "inference_configurations": {
+    "transformers": {
+      "description": "使用Hugging Face Transformers库进行推理",
+      "requirements": ["transformers", "torch"],
+      "quantization_support": true,
+      "gpu_acceleration": true
+    },
+    "vllm": {
+      "description": "使用vLLM进行高性能推理",
+      "requirements": ["vllm", "torch"],
+      "quantization_support": true,
+      "gpu_acceleration": true,
+      "batch_inference": true
+    },
+    "chatglm-cpp": {
+      "description": "使用ChatGLM-CPP进行CPU推理",
+      "requirements": ["chatglm-cpp"],
+      "quantization_support": true,
+      "gpu_acceleration": false,
+      "cpu_optimized": true
+    },
+    "onnx": {
+      "description": "使用ONNX Runtime进行推理",
+      "requirements": ["onnx", "onnxruntime"],
+      "quantization_support": true,
+      "gpu_acceleration": true,
+      "cross_platform": true
+    }
+  },
+  "quantization_configurations": {
+    "4bit": {
+      "description": "4位量化，大幅减少显存占用",
+      "requirements": ["bitsandbytes"],
+      "memory_reduction": "75%",
+      "performance_impact": "轻微"
+    },
+    "8bit": {
+      "description": "8位量化，减少显存占用",
+      "requirements": ["bitsandbytes"],
+      "memory_reduction": "50%",
+      "performance_impact": "很小"
+    },
+    "gptq": {
+      "description": "GPTQ量化，保持较高精度",
+      "requirements": ["auto-gptq"],
+      "memory_reduction": "60%",
+      "performance_impact": "很小"
+    },
+    "dynamic": {
+      "description": "动态量化，运行时优化",
+      "requirements": ["torch"],
+      "memory_reduction": "30%",
+      "performance_impact": "很小"
+    }
+  }
+}

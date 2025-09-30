@@ -1,0 +1,17 @@
+# Conda本地镜像源配置模板
+# 此文件用于配置conda使用本地包仓库
+
+channels:
+  - http://localhost:8080
+  - conda-forge
+  - defaults
+
+channel_priority: strict
+show_channel_urls: true
+ssl_verify: false
+always_yes: true
+
+# 本地包仓库配置
+# 确保本地服务器运行在端口8080
+# 本地包路径: ./downloads/conda-packages
+

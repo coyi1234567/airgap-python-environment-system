@@ -1,0 +1,47 @@
+{
+  "system_settings": {
+    "python_version": "3.10",
+    "conda_version": "latest",
+    "platform": "win-64"
+  },
+  "default_environments": [
+    "base-scientific",
+    "base-ml",
+    "base-dl"
+  ],
+  "local_servers": {
+    "conda_server": {
+      "port": 8080,
+      "path": "./downloads/conda-packages",
+      "description": "conda包本地服务器"
+    },
+    "pip_server": {
+      "port": 8081,
+      "path": "./downloads/pip-packages",
+      "description": "pip包本地服务器"
+    }
+  },
+  "conda_config": {
+    "channels": [
+      "http://localhost:8080",
+      "conda-forge",
+      "defaults"
+    ],
+    "channel_priority": "strict",
+    "show_channel_urls": true,
+    "ssl_verify": false
+  },
+  "pip_config": {
+    "index_url": "http://localhost:8081/simple/",
+    "trusted_host": "localhost",
+    "timeout": 300,
+    "retries": 3
+  },
+  "environment_settings": {
+    "auto_activate": false,
+    "prompt_modifier": true,
+    "conda_auto_update": false,
+    "pip_auto_update": false
+  }
+}
+

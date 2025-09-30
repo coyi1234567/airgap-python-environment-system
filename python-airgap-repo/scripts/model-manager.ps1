@@ -1,0 +1,301 @@
+# 模型管理脚本 - 管理AI模型的下载、配置和部署
+# Model Manager Script - Manage AI model download, configuration and deployment
+
+param(
+    [string]$Action = "list",
+    [string]$ModelType = "",
+    [string]$ModelName = "",
+    [string]$Quantization = "",
+    [string]$InferenceEngine = "transformers",
+    [string]$ConfigFile = "config/model-config.json"
+)
+
+function Write-Log {
+    param(
+        [string]$Message,
+        [string]$Level = "INFO"
+    )
+    
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $logMessage = "[$timestamp] [$Level] $Message"
+    
+    switch ($Level) {
+        "ERROR" { Write-Host $logMessage -ForegroundColor Red }
+        "WARNING" { Write-Host $logMessage -ForegroundColor Yellow }
+        "SUCCESS" { Write-Host $logMessage -ForegroundColor Green }
+        default { Write-Host $logMessage -ForegroundColor White }
+    }
+}
+
+function Get-ModelConfig {
+    param([string]$ConfigFile)
+    
+    if (-not (Test-Path $ConfigFile)) {
+        Write-Log "配置文件不存在: $ConfigFile" "ERROR"
+        return $null
+    }
+    
+    try {
+        $config = Get-Content $ConfigFile | ConvertFrom-Json
+        return $config
+    } catch {
+        Write-Log "配置文件格式错误: $($_.Exception.Message)" "ERROR"
+        return $null
+    }
+}
+
+function Show-ModelList {
+    param([object]$Config)
+    
+    Write-Log "=== 可用模型列表 ===" "INFO"
+    
+    foreach ($modelType in $Config.model_configurations.PSObject.Properties) {
+        Write-Host "`n📦 $($modelType.Name.ToUpper()) 模型:" -ForegroundColor Cyan
+        
+        foreach ($model in $modelType.Value.models.PSObject.Properties) {
+            $modelInfo = $model.Value
+            Write-Host "  🔹 $($model.Name)" -ForegroundColor Yellow
+            Write-Host "     ID: $($modelInfo.model_id)" -ForegroundColor Gray
+            Write-Host "     大小: $($modelInfo.size_gb) GB" -ForegroundColor Gray
+            Write-Host "     量化: $($modelInfo.quantization -join ', ')" -ForegroundColor Gray
+            Write-Host "     推理引擎: $($modelInfo.inference_engines -join ', ')" -ForegroundColor Gray
+        }
+    }
+}
+
+function Show-InferenceEngines {
+    param([object]$Config)
+    
+    Write-Log "=== 推理引擎列表 ===" "INFO"
+    
+    foreach ($engine in $Config.inference_configurations.PSObject.Properties) {
+        $engineInfo = $engine.Value
+        Write-Host "`n🔧 $($engine.Name.ToUpper())" -ForegroundColor Cyan
+        Write-Host "   描述: $($engineInfo.description)" -ForegroundColor White
+        Write-Host "   量化支持: $($engineInfo.quantization_support)" -ForegroundColor Gray
+        Write-Host "   GPU加速: $($engineInfo.gpu_acceleration)" -ForegroundColor Gray
+        if ($engineInfo.batch_inference) {
+            Write-Host "   批量推理: $($engineInfo.batch_inference)" -ForegroundColor Gray
+        }
+    }
+}
+
+function Show-QuantizationOptions {
+    param([object]$Config)
+    
+    Write-Log "=== 量化选项 ===" "INFO"
+    
+    foreach ($quant in $Config.quantization_configurations.PSObject.Properties) {
+        $quantInfo = $quant.Value
+        Write-Host "`n⚡ $($quant.Name.ToUpper())" -ForegroundColor Cyan
+        Write-Host "   描述: $($quantInfo.description)" -ForegroundColor White
+        Write-Host "   内存减少: $($quantInfo.memory_reduction)" -ForegroundColor Gray
+        Write-Host "   性能影响: $($quantInfo.performance_impact)" -ForegroundColor Gray
+    }
+}
+
+function Get-ModelRequirements {
+    param(
+        [object]$Config,
+        [string]$ModelType,
+        [string]$ModelName
+    )
+    
+    if (-not $Config.model_configurations.$ModelType) {
+        Write-Log "模型类型不存在: $ModelType" "ERROR"
+        return $null
+    }
+    
+    if (-not $Config.model_configurations.$ModelType.models.$ModelName) {
+        Write-Log "模型不存在: $ModelName" "ERROR"
+        return $null
+    }
+    
+    $model = $Config.model_configurations.$ModelType.models.$ModelName
+    return $model
+}
+
+function Test-ModelCompatibility {
+    param(
+        [object]$Model,
+        [string]$Quantization,
+        [string]$InferenceEngine
+    )
+    
+    $compatible = $true
+    $issues = @()
+    
+    # 检查量化兼容性
+    if ($Quantization -and $Model.quantization -notcontains $Quantization) {
+        $compatible = $false
+        $issues += "模型不支持 $Quantization 量化"
+    }
+    
+    # 检查推理引擎兼容性
+    if ($InferenceEngine -and $Model.inference_engines -notcontains $InferenceEngine) {
+        $compatible = $false
+        $issues += "模型不支持 $InferenceEngine 推理引擎"
+    }
+    
+    return @{
+        Compatible = $compatible
+        Issues = $issues
+    }
+}
+
+function Generate-ModelScript {
+    param(
+        [object]$Model,
+        [string]$ModelType,
+        [string]$ModelName,
+        [string]$Quantization,
+        [string]$InferenceEngine
+    )
+    
+    $scriptContent = @"
+# 模型加载脚本 - $ModelName
+# Generated by Model Manager
+
+import torch
+from transformers import AutoTokenizer, AutoModel
+
+def load_model():
+    """加载 $ModelName 模型"""
+    
+    model_id = "$($Model.model_id)"
+    
+    # 加载tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
+    
+    # 加载模型
+    model = AutoModel.from_pretrained(
+        model_id,
+        trust_remote_code=True,
+        torch_dtype=torch.float16,
+        device_map="auto"
+    )
+    
+    return model, tokenizer
+
+def chat(model, tokenizer, query, history=None):
+    """与模型对话"""
+    
+    if history is None:
+        history = []
+    
+    response, history = model.chat(tokenizer, query, history=history)
+    return response, history
+
+if __name__ == "__main__":
+    # 加载模型
+    print("正在加载模型...")
+    model, tokenizer = load_model()
+    print("模型加载完成!")
+    
+    # 交互式对话
+    history = []
+    while True:
+        query = input("用户: ")
+        if query.lower() in ['quit', 'exit', '退出']:
+            break
+        
+        response, history = chat(model, tokenizer, query, history)
+        print(f"助手: {response}")
+"@
+    
+    $scriptPath = "scripts/model-$ModelName.py"
+    Set-Content -Path $scriptPath -Value $scriptContent -Encoding UTF8
+    Write-Log "模型脚本已生成: $scriptPath" "SUCCESS"
+}
+
+function Start-ModelManager {
+    Write-Log "=== AI模型管理器 ===" "INFO"
+    Write-Log "操作: $Action" "INFO"
+    Write-Log "模型类型: $ModelType" "INFO"
+    Write-Log "模型名称: $ModelName" "INFO"
+    Write-Log "量化: $Quantization" "INFO"
+    Write-Log "推理引擎: $InferenceEngine" "INFO"
+    
+    # 加载配置
+    $config = Get-ModelConfig -ConfigFile $ConfigFile
+    if (-not $config) {
+        return $false
+    }
+    
+    switch ($Action.ToLower()) {
+        "list" {
+            Show-ModelList -Config $config
+            Show-InferenceEngines -Config $config
+            Show-QuantizationOptions -Config $config
+        }
+        
+        "info" {
+            if (-not $ModelType -or -not $ModelName) {
+                Write-Log "请指定模型类型和模型名称" "ERROR"
+                return $false
+            }
+            
+            $model = Get-ModelRequirements -Config $config -ModelType $ModelType -ModelName $ModelName
+            if ($model) {
+                Write-Log "=== 模型信息 ===" "INFO"
+                Write-Host "模型ID: $($model.model_id)" -ForegroundColor White
+                Write-Host "模型类型: $($model.model_type)" -ForegroundColor White
+                Write-Host "大小: $($model.size_gb) GB" -ForegroundColor White
+                Write-Host "量化选项: $($model.quantization -join ', ')" -ForegroundColor White
+                Write-Host "推理引擎: $($model.inference_engines -join ', ')" -ForegroundColor White
+                Write-Host "依赖包: $($model.requirements | ConvertTo-Json -Compress)" -ForegroundColor White
+            }
+        }
+        
+        "check" {
+            if (-not $ModelType -or -not $ModelName) {
+                Write-Log "请指定模型类型和模型名称" "ERROR"
+                return $false
+            }
+            
+            $model = Get-ModelRequirements -Config $config -ModelType $ModelType -ModelName $ModelName
+            if ($model) {
+                $compatibility = Test-ModelCompatibility -Model $model -Quantization $Quantization -InferenceEngine $InferenceEngine
+                
+                if ($compatibility.Compatible) {
+                    Write-Log "模型配置兼容" "SUCCESS"
+                } else {
+                    Write-Log "模型配置不兼容" "ERROR"
+                    foreach ($issue in $compatibility.Issues) {
+                        Write-Log "  - $issue" "ERROR"
+                    }
+                }
+            }
+        }
+        
+        "generate" {
+            if (-not $ModelType -or -not $ModelName) {
+                Write-Log "请指定模型类型和模型名称" "ERROR"
+                return $false
+            }
+            
+            $model = Get-ModelRequirements -Config $config -ModelType $ModelType -ModelName $ModelName
+            if ($model) {
+                $compatibility = Test-ModelCompatibility -Model $model -Quantization $Quantization -InferenceEngine $InferenceEngine
+                
+                if ($compatibility.Compatible) {
+                    Generate-ModelScript -Model $model -ModelType $ModelType -ModelName $ModelName -Quantization $Quantization -InferenceEngine $InferenceEngine
+                } else {
+                    Write-Log "模型配置不兼容，无法生成脚本" "ERROR"
+                }
+            }
+        }
+        
+        default {
+            Write-Log "未知操作: $Action" "ERROR"
+            Write-Log "支持的操作: list, info, check, generate" "INFO"
+        }
+    }
+    
+    return $true
+}
+
+# 主执行逻辑
+if ($MyInvocation.InvocationName -ne '.') {
+    Start-ModelManager
+}

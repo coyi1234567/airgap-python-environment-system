@@ -1,0 +1,190 @@
+{
+  "repository_info": {
+    "name": "内网机器离线Python环境全自动化管理系统",
+    "english_name": "AirGap Python Environment Management System",
+    "version": "1.0.0",
+    "created_date": "2025-01-29",
+    "description": "内网机器离线Python环境全自动化管理系统",
+    "python_version": "3.10",
+    "conda_version": "latest"
+  },
+  "packages": {
+    "conda_packages": {
+      "noarch": [],
+      "win-64": []
+    },
+    "pip_packages": []
+  },
+  "environments": {
+    "base-scientific": {
+      "file": "environments/base-scientific.yml",
+      "description": "基础科学计算环境",
+      "packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "scipy>=1.10.0",
+        "matplotlib>=3.6.0",
+        "seaborn>=0.12.0",
+        "scikit-learn>=1.3.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0",
+        "beautifulsoup4>=4.11.0",
+        "black>=22.0.0",
+        "pytest>=7.0.0",
+        "flake8>=5.0.0",
+        "pylint>=2.15.0"
+      ]
+    },
+    "base-ml": {
+      "file": "environments/base-ml.yml",
+      "description": "机器学习环境",
+      "packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "scipy>=1.10.0",
+        "matplotlib>=3.6.0",
+        "seaborn>=0.12.0",
+        "scikit-learn>=1.3.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0",
+        "black>=22.0.0",
+        "pytest>=7.0.0"
+      ]
+    },
+    "base-dl": {
+      "file": "environments/base-dl.yml",
+      "description": "深度学习环境",
+      "packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "matplotlib>=3.6.0",
+        "seaborn>=0.12.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0",
+        "black>=22.0.0",
+        "pytest>=7.0.0"
+      ]
+    },
+    "ai-models": {
+      "file": "environments/ai-models.yml",
+      "description": "AI模型通用环境",
+      "packages": [
+        "python=3.10",
+        "torch>=2.0.0",
+        "transformers>=4.30.0",
+        "vllm>=0.2.0",
+        "fastapi>=0.100.0",
+        "gradio>=3.40.0"
+      ]
+    },
+    "chatglm": {
+      "file": "environments/chatglm.yml",
+      "description": "ChatGLM模型环境",
+      "packages": [
+        "python=3.10",
+        "torch>=2.0.0",
+        "transformers>=4.30.0",
+        "chatglm-cpp>=0.2.0",
+        "cpm-kernels>=1.0.11"
+      ]
+    },
+    "deepseek": {
+      "file": "environments/deepseek.yml",
+      "description": "DeepSeek模型环境",
+      "packages": [
+        "python=3.10",
+        "torch>=2.0.0",
+        "transformers>=4.30.0",
+        "flash-attn>=2.3.0",
+        "deepseek-ai>=0.1.0"
+      ]
+    },
+    "bert": {
+      "file": "environments/bert.yml",
+      "description": "BERT模型环境",
+      "packages": [
+        "python=3.10",
+        "torch>=2.0.0",
+        "tensorflow>=2.13.0",
+        "transformers>=4.30.0",
+        "bert-tensorflow>=2.0.0"
+      ]
+    },
+    "qwen": {
+      "file": "environments/qwen.yml",
+      "description": "Qwen模型环境",
+      "packages": [
+        "python=3.10",
+        "torch>=2.0.0",
+        "transformers>=4.30.0",
+        "flash-attn>=2.3.0",
+        "qwen-agent>=0.0.1"
+      ]
+    },
+    "openai-compatible": {
+      "file": "environments/openai-compatible.yml",
+      "description": "OpenAI兼容环境",
+      "packages": [
+        "python=3.10",
+        "openai>=1.0.0",
+        "vllm>=0.2.0",
+        "fastapi>=0.100.0",
+        "pydantic>=2.0.0"
+      ]
+    }
+  },
+  "scripts": {
+    "setup": "scripts/setup.ps1",
+    "smart-download": "scripts/smart-download.ps1",
+    "download-packages": "scripts/download-packages.ps1",
+    "env-manager": "scripts/env-manager.ps1",
+    "verify-deployment": "scripts/verify-deployment.ps1"
+  },
+  "installers": {
+    "miniconda": "downloads/installers/Miniconda3-latest-Windows-x86_64.exe"
+  },
+  "usage_instructions": {
+    "deployment": [
+      "1. 克隆项目到本地",
+      "2. 配置下载路径（可选）",
+      "3. 运行 scripts/smart-download.ps1 下载所需文件",
+      "4. 运行 scripts/setup.ps1 进行一键部署",
+      "5. 等待安装完成，验证环境"
+    ],
+    "package_management": [
+      "1. 使用 conda install 安装conda包",
+      "2. 使用 pip install 安装pip包",
+      "3. 所有包都从本地仓库获取"
+    ],
+    "environment_management": [
+      "1. 使用 env-manager.ps1 导出环境",
+      "2. 使用 env-manager.ps1 导入环境",
+      "3. 使用 env-manager.ps1 对比环境差异"
+    ]
+  },
+  "local_servers": {
+    "conda_server": {
+      "port": 8080,
+      "path": "downloads/conda-packages",
+      "description": "conda包本地服务器"
+    },
+    "pip_server": {
+      "port": 8081,
+      "path": "downloads/pip-packages",
+      "description": "pip包本地服务器"
+    }
+  },
+  "config_files": {
+    "download_config": "config/download-config.json",
+    "environment_config": "config/environment-config.json"
+  },
+  "templates": {
+    "conda_channel": "templates/conda-channel-template.txt",
+    "pip_index": "templates/pip-index-template.txt"
+  }
+}
+
+

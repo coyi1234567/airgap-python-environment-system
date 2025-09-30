@@ -1,0 +1,82 @@
+# 下载的文件和包
+downloads/
+*.exe
+*.tar.bz2
+*.conda
+*.whl
+*.tar.gz
+
+# 日志文件
+*.log
+logs/
+*.tmp
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 临时文件
+*.swp
+*.swo
+*~
+*.bak
+
+# Python缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 环境文件
+.env
+.venv
+venv/
+ENV/
+env/
+.conda/
+
+# IDE文件
+.vscode/
+.idea/
+*.sublime-*
+.atom/
+.brackets.json
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# 配置文件（包含敏感信息）
+config/local-*.json
+config/*-secret.json
+
+# 备份文件
+backup/
+*.backup
+
+# 大文件
+*.zip
+*.rar
+*.7z
+
+# 特定于Windows的文件
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+

@@ -1,0 +1,42 @@
+name: deepseek
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy>=1.24.0
+  - pandas>=2.0.0
+  - matplotlib>=3.6.0
+  - jupyter>=1.0.0
+  - requests>=2.28.0
+  - pip
+  - pip:
+    # DeepSeek核心依赖
+    - torch>=2.0.0
+    - transformers>=4.30.0
+    - tokenizers>=0.13.0
+    - accelerate>=0.20.0
+    - flash-attn>=2.3.0
+    
+    # DeepSeek特定包
+    - deepseek-ai>=0.1.0
+    - sentencepiece>=0.1.99
+    - protobuf>=3.20.0
+    
+    # 推理加速
+    - vllm>=0.2.0
+    - fastapi>=0.100.0
+    - uvicorn>=0.20.0
+    
+    # 量化支持
+    - bitsandbytes>=0.41.0
+    - auto-gptq>=0.4.0
+    - gptq>=0.1.0
+    
+    # 工具库
+    - tqdm>=4.65.0
+    - pyyaml>=6.0
+    - click>=8.1.0
+    - gradio>=3.40.0
+    - streamlit>=1.25.0

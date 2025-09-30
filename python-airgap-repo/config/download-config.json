@@ -1,0 +1,312 @@
+{
+  "download_settings": {
+    "base_path": "./downloads",
+    "conda_packages_path": "./downloads/conda-packages",
+    "pip_packages_path": "./downloads/pip-packages",
+    "installers_path": "./downloads/installers",
+    "temp_path": "./downloads/temp"
+  },
+  "mirror_settings": {
+    "conda_mirror": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/",
+    "conda_forge_mirror": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/",
+    "pip_mirror": "https://pypi.tuna.tsinghua.edu.cn/simple/",
+    "miniconda_mirror": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/"
+  },
+  "download_options": {
+    "download_installers": true,
+    "download_base_packages": true,
+    "download_ml_packages": false,
+    "download_dl_packages": false,
+    "download_ai_models": false,
+    "download_chatglm": false,
+    "download_deepseek": false,
+    "download_bert": false,
+    "download_qwen": false,
+    "download_openai_compatible": false,
+    "parallel_downloads": 4,
+    "retry_count": 3,
+    "timeout_seconds": 300
+  },
+  "package_selections": {
+    "base_scientific": {
+      "conda_packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "scipy>=1.10.0",
+        "matplotlib>=3.6.0",
+        "seaborn>=0.12.0",
+        "scikit-learn>=1.3.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0",
+        "beautifulsoup4>=4.11.0",
+        "black>=22.0.0",
+        "pytest>=7.0.0",
+        "flake8>=5.0.0",
+        "pylint>=2.15.0"
+      ],
+      "pip_packages": [
+        "requests>=2.28.0",
+        "beautifulsoup4>=4.11.0"
+      ]
+    },
+    "base_ml": {
+      "conda_packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "scipy>=1.10.0",
+        "matplotlib>=3.6.0",
+        "seaborn>=0.12.0",
+        "scikit-learn>=1.3.0",
+        "jupyter>=1.0.0",
+        "xgboost>=1.7.0",
+        "lightgbm>=3.3.0",
+        "catboost>=1.2.0",
+        "optuna>=3.0.0",
+        "mlflow>=2.0.0"
+      ],
+      "pip_packages": [
+        "optuna>=3.0.0",
+        "mlflow>=2.0.0"
+      ]
+    },
+    "base_dl": {
+      "conda_packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "matplotlib>=3.6.0",
+        "seaborn>=0.12.0",
+        "jupyter>=1.0.0",
+        "pytorch>=2.0.0",
+        "tensorflow>=2.13.0",
+        "opencv>=4.8.0",
+        "pillow>=10.0.0"
+      ],
+      "pip_packages": [
+        "torch>=2.0.0",
+        "tensorflow>=2.13.0",
+        "transformers>=4.30.0",
+        "datasets>=2.12.0",
+        "accelerate>=0.20.0",
+        "opencv-python>=4.8.0",
+        "pillow>=10.0.0"
+      ]
+    },
+    "ai_models": {
+      "conda_packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "matplotlib>=3.6.0",
+        "seaborn>=0.12.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0",
+        "black>=22.0.0",
+        "pytest>=7.0.0"
+      ],
+      "pip_packages": [
+        "torch>=2.0.0",
+        "torchvision>=0.15.0",
+        "torchaudio>=2.0.0",
+        "tensorflow>=2.13.0",
+        "transformers>=4.30.0",
+        "tokenizers>=0.13.0",
+        "datasets>=2.12.0",
+        "accelerate>=0.20.0",
+        "safetensors>=0.3.0",
+        "vllm>=0.2.0",
+        "fastapi>=0.100.0",
+        "uvicorn>=0.20.0",
+        "gradio>=3.40.0",
+        "streamlit>=1.25.0",
+        "bitsandbytes>=0.41.0",
+        "auto-gptq>=0.4.0",
+        "optimum>=1.12.0",
+        "opencv-python>=4.8.0",
+        "pillow>=10.0.0",
+        "scikit-image>=0.21.0",
+        "librosa>=0.10.0",
+        "soundfile>=0.12.0",
+        "scipy>=1.10.0",
+        "scikit-learn>=1.3.0",
+        "plotly>=5.15.0",
+        "bokeh>=3.2.0",
+        "tqdm>=4.65.0",
+        "psutil>=5.9.0",
+        "pyyaml>=6.0",
+        "click>=8.1.0"
+      ]
+    },
+    "chatglm": {
+      "conda_packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "matplotlib>=3.6.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0"
+      ],
+      "pip_packages": [
+        "torch>=2.0.0",
+        "transformers>=4.30.0",
+        "tokenizers>=0.13.0",
+        "accelerate>=0.20.0",
+        "cpm-kernels>=1.0.11",
+        "chatglm-cpp>=0.2.0",
+        "sentencepiece>=0.1.99",
+        "protobuf>=3.20.0",
+        "vllm>=0.2.0",
+        "fastapi>=0.100.0",
+        "uvicorn>=0.20.0",
+        "bitsandbytes>=0.41.0",
+        "auto-gptq>=0.4.0",
+        "tqdm>=4.65.0",
+        "pyyaml>=6.0",
+        "click>=8.1.0",
+        "gradio>=3.40.0"
+      ]
+    },
+    "deepseek": {
+      "conda_packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "matplotlib>=3.6.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0"
+      ],
+      "pip_packages": [
+        "torch>=2.0.0",
+        "transformers>=4.30.0",
+        "tokenizers>=0.13.0",
+        "accelerate>=0.20.0",
+        "flash-attn>=2.3.0",
+        "deepseek-ai>=0.1.0",
+        "sentencepiece>=0.1.99",
+        "protobuf>=3.20.0",
+        "vllm>=0.2.0",
+        "fastapi>=0.100.0",
+        "uvicorn>=0.20.0",
+        "bitsandbytes>=0.41.0",
+        "auto-gptq>=0.4.0",
+        "gptq>=0.1.0",
+        "tqdm>=4.65.0",
+        "pyyaml>=6.0",
+        "click>=8.1.0",
+        "gradio>=3.40.0",
+        "streamlit>=1.25.0"
+      ]
+    },
+    "bert": {
+      "conda_packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "matplotlib>=3.6.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0"
+      ],
+      "pip_packages": [
+        "torch>=2.0.0",
+        "tensorflow>=2.13.0",
+        "transformers>=4.30.0",
+        "tokenizers>=0.13.0",
+        "datasets>=2.12.0",
+        "bert-tensorflow>=2.0.0",
+        "bert-pytorch>=0.0.1",
+        "sentencepiece>=0.1.99",
+        "protobuf>=3.20.0",
+        "nltk>=3.8.0",
+        "spacy>=3.6.0",
+        "jieba>=0.42.1",
+        "scikit-learn>=1.3.0",
+        "scipy>=1.10.0",
+        "seaborn>=0.12.0",
+        "plotly>=5.15.0",
+        "tqdm>=4.65.0",
+        "pyyaml>=6.0",
+        "click>=8.1.0",
+        "wandb>=0.15.0"
+      ]
+    },
+    "qwen": {
+      "conda_packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "matplotlib>=3.6.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0"
+      ],
+      "pip_packages": [
+        "torch>=2.0.0",
+        "transformers>=4.30.0",
+        "tokenizers>=0.13.0",
+        "accelerate>=0.20.0",
+        "flash-attn>=2.3.0",
+        "qwen-agent>=0.0.1",
+        "sentencepiece>=0.1.99",
+        "protobuf>=3.20.0",
+        "tiktoken>=0.5.0",
+        "vllm>=0.2.0",
+        "fastapi>=0.100.0",
+        "uvicorn>=0.20.0",
+        "bitsandbytes>=0.41.0",
+        "auto-gptq>=0.4.0",
+        "gptq>=0.1.0",
+        "opencv-python>=4.8.0",
+        "pillow>=10.0.0",
+        "timm>=0.9.0",
+        "tqdm>=4.65.0",
+        "pyyaml>=6.0",
+        "click>=8.1.0",
+        "gradio>=3.40.0",
+        "streamlit>=1.25.0"
+      ]
+    },
+    "openai_compatible": {
+      "conda_packages": [
+        "python=3.10",
+        "numpy>=1.24.0",
+        "pandas>=2.0.0",
+        "matplotlib>=3.6.0",
+        "jupyter>=1.0.0",
+        "requests>=2.28.0"
+      ],
+      "pip_packages": [
+        "openai>=1.0.0",
+        "anthropic>=0.3.0",
+        "cohere>=4.0.0",
+        "vllm>=0.2.0",
+        "fastapi>=0.100.0",
+        "uvicorn>=0.20.0",
+        "pydantic>=2.0.0",
+        "torch>=2.0.0",
+        "transformers>=4.30.0",
+        "tokenizers>=0.13.0",
+        "accelerate>=0.20.0",
+        "bitsandbytes>=0.41.0",
+        "auto-gptq>=0.4.0",
+        "optimum>=1.12.0",
+        "tqdm>=4.65.0",
+        "pyyaml>=6.0",
+        "click>=8.1.0",
+        "httpx>=0.24.0",
+        "aiohttp>=3.8.0",
+        "wandb>=0.15.0",
+        "tensorboard>=2.13.0"
+      ]
+    }
+  },
+  "installers": {
+    "miniconda": {
+      "filename": "Miniconda3-latest-Windows-x86_64.exe",
+      "url": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Windows-x86_64.exe",
+      "size_mb": 90,
+      "sha256": "auto_detect"
+    }
+  }
+}
+
