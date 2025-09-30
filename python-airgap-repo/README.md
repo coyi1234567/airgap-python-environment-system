@@ -20,388 +20,259 @@
 
 ## 🚀 快速开始
 
-### 第一步：下载项目
+### 1. 下载项目
 ```bash
-# 克隆项目到本地
-git clone https://github.com/username/airgap-python-environment-system.git
-cd airgap-python-environment-system
+git clone https://github.com/coyi1234567/airgap-python-environment-system.git
+cd airgap-python-environment-system/python-airgap-repo
 ```
 
-### 第二步：配置下载路径（可选）
-```bash
-# 编辑配置文件
-notepad config/download-config.json
-```
-
-### 第三步：一键部署
+### 2. 一键部署
 ```powershell
-# 运行一键部署脚本
+# 以管理员身份运行PowerShell
 .\scripts\setup.ps1
-
-# 脚本会自动：
-# 1. 下载Miniconda安装包
-# 2. 安装Miniconda
-# 3. 配置本地镜像源
-# 4. 下载基础包文件
-# 5. 创建预配置环境
 ```
 
-### 第四步：验证安装
+### 3. 验证安装
 ```powershell
-# 验证conda安装
-conda --version
-
-# 验证Python环境
-python --version
-
-# 查看可用环境
-conda env list
+.\scripts\verify-deployment.ps1
 ```
 
 ## 📁 项目结构
 
 ```
-airgap-python-environment-system/
-├── config/                          # 配置文件
-│   ├── download-config.json        # 下载配置
-│   └── environment-config.json     # 环境配置
-├── scripts/                        # 自动化脚本
-│   ├── setup.ps1                  # 一键部署脚本
-│   ├── download-packages.ps1      # 包下载脚本
-│   ├── env-manager.ps1            # 环境管理脚本
-│   └── verify-deployment.ps1      # 部署验证脚本
-├── environments/                   # 预配置环境
-│   ├── base-scientific.yml       # 基础科学计算环境
-│   ├── base-ml.yml              # 机器学习环境
-│   └── base-dl.yml              # 深度学习环境
-├── templates/                     # 模板文件
-│   ├── conda-channel-template.txt # conda源配置模板
-│   └── pip-index-template.txt    # pip源配置模板
-├── docs/                         # 文档
-│   ├── installation-guide.md     # 安装指南
-│   ├── usage-guide.md           # 使用指南
-│   └── troubleshooting.md       # 故障排除
-├── .gitignore                    # Git忽略文件
-├── manifest.json                # 项目清单
-└── README.md                    # 说明文档
+python-airgap-repo/
+├── scripts/                 # 自动化脚本
+│   ├── setup.ps1           # 一键部署脚本
+│   ├── env-manager.ps1     # 环境管理脚本
+│   ├── verify-deployment.ps1 # 验证部署脚本
+│   └── progress-tracker.ps1 # 进度跟踪脚本
+├── environments/            # 环境配置文件
+│   ├── base-scientific.yml # 科学计算环境
+│   ├── base-ml.yml         # 机器学习环境
+│   ├── base-dl.yml         # 深度学习环境
+│   ├── ai-models.yml       # AI模型环境
+│   ├── chatglm.yml         # ChatGLM环境
+│   ├── deepseek.yml        # DeepSeek环境
+│   ├── bert.yml            # BERT环境
+│   ├── qwen.yml            # Qwen环境
+│   └── openai-compatible.yml # OpenAI兼容环境
+├── config/                  # 配置文件
+│   ├── download-config.json # 下载配置
+│   ├── environment-config.json # 环境配置
+│   └── model-config.json   # 模型配置
+├── templates/               # 模板文件
+│   ├── conda-channel-template.txt # Conda源模板
+│   └── pip-index-template.txt     # Pip源模板
+├── installers/              # 安装包目录
+├── conda-packages/          # Conda包目录
+├── pip-packages/            # Pip包目录
+├── docs/                    # 文档目录
+├── manifest.json            # 项目清单
+└── README.md               # 项目说明
 ```
 
-## ⚙️ 配置说明
+## 🔧 环境管理
 
-### 下载配置文件 (config/download-config.json)
-```json
-{
-  "download_settings": {
-    "base_path": "./downloads",
-    "conda_packages_path": "./downloads/conda-packages",
-    "pip_packages_path": "./downloads/pip-packages",
-    "installers_path": "./downloads/installers"
-  },
-  "mirror_settings": {
-    "conda_mirror": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/",
-    "pip_mirror": "https://pypi.tuna.tsinghua.edu.cn/simple/"
-  },
-  "download_options": {
-    "download_installers": true,
-    "download_base_packages": true,
-    "download_ml_packages": false,
-    "download_dl_packages": false
-  }
-}
-```
-
-### 环境配置文件 (config/environment-config.json)
-```json
-{
-  "python_version": "3.10",
-  "conda_version": "latest",
-  "default_environments": [
-    "base-scientific",
-    "base-ml",
-    "base-dl"
-  ],
-  "local_servers": {
-    "conda_port": 8080,
-    "pip_port": 8081
-  }
-}
-```
-
-## 🛠️ 使用指南
-
-### 环境管理
+### 创建环境
 ```powershell
-# 激活科学计算环境
-conda activate base-scientific
+# 创建科学计算环境
+.\scripts\env-manager.ps1 -Action Create -EnvironmentName "scientific" -ConfigFile "environments\base-scientific.yml"
 
-# 激活机器学习环境
-conda activate base-ml
+# 创建机器学习环境
+.\scripts\env-manager.ps1 -Action Create -EnvironmentName "ml" -ConfigFile "environments\base-ml.yml"
 
-# 激活深度学习环境
-conda activate base-dl
-
-# 激活AI模型环境
-conda activate ai-models
-
-# 激活ChatGLM环境
-conda activate chatglm
-
-# 激活DeepSeek环境
-conda activate deepseek
-
-# 激活BERT环境
-conda activate bert
-
-# 激活Qwen环境
-conda activate qwen
-
-# 激活OpenAI兼容环境
-conda activate openai-compatible
-
-# 查看所有环境
-conda env list
+# 创建深度学习环境
+.\scripts\env-manager.ps1 -Action Create -EnvironmentName "dl" -ConfigFile "environments\base-dl.yml"
 ```
 
-### 包管理
+### 管理环境
 ```powershell
-# 安装conda包（从本地仓库）
-conda install numpy pandas
+# 列出所有环境
+.\scripts\env-manager.ps1 -Action List
 
-# 安装pip包（从本地仓库）
-pip install requests beautifulsoup4
+# 激活环境
+.\scripts\env-manager.ps1 -Action Activate -EnvironmentName "scientific"
 
-# 查看已安装的包
-conda list
+# 删除环境
+.\scripts\env-manager.ps1 -Action Remove -EnvironmentName "scientific"
 ```
 
-### 环境导出/导入
+## 🤖 AI模型环境支持
+
+### ChatGLM环境
 ```powershell
-# 导出当前环境
-.\scripts\env-manager.ps1 -Action export -EnvName myenv -OutputPath .\exports
-
-# 导入环境
-.\scripts\env-manager.ps1 -Action import -InputPath .\exports\myenv.yml
-
-# 对比环境差异
-.\scripts\env-manager.ps1 -Action compare -InputPath ".\exports\old.yml .\exports\new.yml"
+# 创建ChatGLM环境
+.\scripts\env-manager.ps1 -Action Create -EnvironmentName "chatglm" -ConfigFile "environments\chatglm.yml"
 ```
 
-## 📦 预配置环境
+### DeepSeek环境
+```powershell
+# 创建DeepSeek环境
+.\scripts\env-manager.ps1 -Action Create -EnvironmentName "deepseek" -ConfigFile "environments\deepseek.yml"
+```
 
-### 基础科学计算环境 (base-scientific)
-- **Python 3.10**
-- **数据科学**: numpy, pandas, scipy
-- **可视化**: matplotlib, seaborn
-- **机器学习**: scikit-learn
-- **开发工具**: jupyter, black, pytest
+### BERT环境
+```powershell
+# 创建BERT环境
+.\scripts\env-manager.ps1 -Action Create -EnvironmentName "bert" -ConfigFile "environments\bert.yml"
+```
 
-### 机器学习环境 (base-ml)
-- **包含**: 基础科学计算环境的所有包
-- **额外**: xgboost, lightgbm, catboost
-- **实验管理**: optuna, mlflow
+### Qwen环境
+```powershell
+# 创建Qwen环境
+.\scripts\env-manager.ps1 -Action Create -EnvironmentName "qwen" -ConfigFile "environments\qwen.yml"
+```
 
-### 深度学习环境 (base-dl)
-- **包含**: 基础科学计算环境的所有包
-- **深度学习**: torch, tensorflow
-- **AI开发**: transformers, datasets, accelerate
-- **图像处理**: opencv-python, pillow
+### OpenAI兼容环境
+```powershell
+# 创建OpenAI兼容环境
+.\scripts\env-manager.ps1 -Action Create -EnvironmentName "openai" -ConfigFile "environments\openai-compatible.yml"
+```
 
-### AI模型通用环境 (ai-models)
-- **核心框架**: torch, tensorflow, transformers
-- **推理加速**: vllm, fastapi, uvicorn
-- **量化支持**: bitsandbytes, auto-gptq, optimum
-- **可视化**: gradio, streamlit
-- **多模态**: opencv-python, pillow, librosa
-
-### ChatGLM模型环境 (chatglm)
-- **ChatGLM支持**: chatglm-cpp, cpm-kernels
-- **推理加速**: vllm, fastapi
-- **量化**: bitsandbytes, auto-gptq
-- **界面**: gradio
-
-### DeepSeek模型环境 (deepseek)
-- **DeepSeek支持**: deepseek-ai, flash-attn
-- **推理加速**: vllm, fastapi
-- **量化**: bitsandbytes, auto-gptq, gptq
-- **界面**: gradio, streamlit
-
-### BERT模型环境 (bert)
-- **BERT支持**: bert-tensorflow, bert-pytorch
-- **文本处理**: nltk, spacy, jieba
-- **评估**: scikit-learn, scipy
-- **可视化**: seaborn, plotly
-- **实验管理**: wandb
-
-### Qwen模型环境 (qwen)
-- **Qwen支持**: qwen-agent, flash-attn
-- **多模态**: opencv-python, pillow, timm
-- **推理加速**: vllm, fastapi
-- **量化**: bitsandbytes, auto-gptq
-- **界面**: gradio, streamlit
-
-### OpenAI兼容环境 (openai-compatible)
-- **API兼容**: openai, anthropic, cohere
-- **本地服务**: vllm, fastapi, pydantic
-- **量化**: bitsandbytes, auto-gptq, optimum
-- **监控**: wandb, tensorboard
-
-## 🔧 高级功能
+## 📦 智能下载管理
 
 ### 项目配置文件分析
-系统可以根据项目的配置文件（如 `requirements.txt`、`environment.yml`、`pyproject.toml` 等）自动分析依赖包，生成去重下载清单。
+系统支持分析多种项目配置文件：
+- `requirements.txt` - Python包依赖
+- `environment.yml` - Conda环境配置
+- `pyproject.toml` - 现代Python项目配置
+- `Pipfile` - Pipenv项目配置
+- `poetry.lock` - Poetry项目配置
 
+### 智能去重下载
 ```powershell
-# 分析项目配置文件
-.\scripts\project-analyzer.ps1 -ProjectPath "C:\MyProject"
-
-# 生成下载清单
-.\scripts\smart-download-v2.ps1 -ProjectPath "C:\MyProject" -AnalyzeProject
+# 分析项目依赖并去重下载
+.\scripts\smart-download-v2.ps1 -ProjectPath "C:\your-project" -DownloadPath ".\packages"
 ```
 
 ### 项目模板生成
-快速生成不同类型的项目配置文件：
-
 ```powershell
-# 交互式生成项目模板
-.\scripts\project-template-generator.ps1 -Interactive
+# 生成AI/ML项目模板
+.\scripts\project-template-generator.ps1 -ProjectType "ai-ml" -ProjectName "my-ai-project"
 
-# 直接生成ChatGLM项目模板
+# 生成ChatGLM项目模板
 .\scripts\project-template-generator.ps1 -ProjectType "chatglm" -ProjectName "my-chatglm-project"
 ```
 
-支持的项目类型：
-- **ai-ml**: AI/机器学习项目
-- **web-api**: Web API项目
-- **data-science**: 数据科学项目
-- **nlp**: 自然语言处理项目
-- **computer-vision**: 计算机视觉项目
-- **chatglm**: ChatGLM项目
-- **deepseek**: DeepSeek项目
+## 🔄 环境迁移
 
-### 智能去重下载
-基于项目分析结果，自动去重下载依赖包：
-
+### 导出环境
 ```powershell
-# 分析项目并下载
-.\scripts\smart-download-v2.ps1 -ProjectPath "C:\MyProject" -AnalyzeProject
-
-# 基于现有下载清单下载
-.\scripts\smart-download-v2.ps1 -DownloadListFile "download-list.json"
-
-# 强制重新下载所有包
-.\scripts\smart-download-v2.ps1 -ProjectPath "C:\MyProject" -Force
+# 导出环境配置
+.\scripts\env-manager.ps1 -Action Export -EnvironmentName "scientific" -OutputPath ".\exports\scientific.yml"
 ```
 
-### 增量包下载
+### 导入环境
 ```powershell
-# 只下载新增的包
-.\scripts\download-packages.ps1 -Mode incremental
-
-# 下载特定环境的包
-.\scripts\download-packages.ps1 -Environment base-ml
+# 导入环境配置
+.\scripts\env-manager.ps1 -Action Import -ConfigFile ".\exports\scientific.yml" -EnvironmentName "scientific-new"
 ```
 
-### 环境差异分析
-```powershell
-# 分析两个环境的包差异
-.\scripts\env-manager.ps1 -Action diff -Env1 old-env -Env2 new-env
+## 📊 进度跟踪
 
-# 生成差异包下载清单
-.\scripts\env-manager.ps1 -Action generate-diff-list -OutputPath .\diff-packages.txt
+### 实时进度监控
+```powershell
+# 启动进度跟踪
+.\scripts\progress-tracker.ps1 -ProjectPath ".\" -UpdateInterval 5
 ```
 
-## 🌐 本地服务器
+### 最终验证
+```powershell
+# 执行最终验证
+.\scripts\final-validation.ps1 -ProjectPath ".\"
+```
 
-系统会自动启动本地HTTP服务器：
-- **Conda包服务器**: http://localhost:8080
-- **Pip包服务器**: http://localhost:8081
+## 🛠️ 配置说明
 
-这些服务器提供本地包下载服务，确保完全离线运行。
+### 下载配置 (config/download-config.json)
+```json
+{
+  "download_sources": {
+    "conda_channels": ["https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/"],
+    "pip_indexes": ["https://pypi.tuna.tsinghua.edu.cn/simple/"]
+  },
+  "download_ai_models": true,
+  "download_chatglm": true,
+  "download_deepseek": true,
+  "download_bert": true,
+  "download_qwen": true,
+  "download_openai_compatible": true
+}
+```
+
+### 环境配置 (config/environment-config.json)
+```json
+{
+  "default_python_version": "3.10",
+  "default_conda_channel": "conda-forge",
+  "default_pip_index": "https://pypi.org/simple/",
+  "environment_prefix": "airgap_"
+}
+```
+
+### 模型配置 (config/model-config.json)
+```json
+{
+  "models": {
+    "chatglm": {
+      "name": "ChatGLM",
+      "description": "ChatGLM系列大语言模型",
+      "quantization": ["int4", "int8", "fp16"],
+      "inference_engines": ["transformers", "vllm", "tgi"]
+    }
+  }
+}
+```
 
 ## 🔍 故障排除
 
 ### 常见问题
 
-1. **下载失败**
+1. **PowerShell执行策略问题**
    ```powershell
-   # 检查网络连接
-   Test-NetConnection -ComputerName mirrors.tuna.tsinghua.edu.cn -Port 443
-   
-   # 重新下载
-   .\scripts\download-packages.ps1 -Force
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
    ```
 
-2. **安装失败**
-   ```powershell
-   # 检查磁盘空间
-   Get-WmiObject -Class Win32_LogicalDisk | Select-Object DeviceID, @{Name="Size(GB)";Expression={[math]::Round($_.Size/1GB,2)}}, @{Name="FreeSpace(GB)";Expression={[math]::Round($_.FreeSpace/1GB,2)}}
-   
-   # 以管理员身份运行
-   Start-Process PowerShell -Verb RunAs
-   ```
+2. **网络连接问题**
+   - 确保所有下载源配置正确
+   - 检查防火墙设置
 
-3. **环境激活失败**
-   ```powershell
-   # 重新初始化conda
-   conda init powershell
-   
-   # 重新创建环境
-   .\scripts\env-manager.ps1 -Action recreate -EnvName base-scientific
-   ```
+3. **环境创建失败**
+   - 检查磁盘空间
+   - 验证环境配置文件格式
+
+4. **包下载失败**
+   - 检查下载源可用性
+   - 验证网络连接
 
 ### 日志查看
 ```powershell
-# 查看conda信息
-conda info
+# 查看部署日志
+Get-Content ".\logs\deployment.log" -Tail 50
 
-# 查看环境列表
-conda env list
-
-# 查看包列表
-conda list
-
-# 查看下载日志
-Get-Content .\logs\download.log -Tail 50
+# 查看错误日志
+Get-Content ".\logs\error.log" -Tail 50
 ```
 
-## 📋 系统要求
+## 📚 文档
 
-- **操作系统**: Windows 10 或更高版本
-- **磁盘空间**: 至少10GB可用空间
-- **内存**: 至少4GB RAM
-- **PowerShell**: 5.0或更高版本
-- **网络**: 首次下载时需要网络连接
+- [部署指南](docs/deployment-guide.md)
+- [环境管理](docs/environment-management.md)
+- [故障排除](docs/troubleshooting.md)
+- [API参考](docs/api-reference.md)
 
-## 🤝 贡献指南
+## 🤝 贡献
 
-1. Fork 项目
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开 Pull Request
+欢迎提交Issue和Pull Request！
 
 ## 📄 许可证
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+本项目采用MIT许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
 
-## 📞 技术支持
+## 🙏 致谢
 
-- **问题报告**: [GitHub Issues](https://github.com/username/airgap-python-environment-system/issues)
-- **功能请求**: [GitHub Discussions](https://github.com/username/airgap-python-environment-system/discussions)
-- **文档**: [Wiki](https://github.com/username/airgap-python-environment-system/wiki)
-
-## 🎉 项目状态
-
-- ✅ **项目计划**: 完整
-- ✅ **执行保障**: 完备
-- ✅ **验收机制**: 完善
-- ✅ **成功验证**: 完备
-- ✅ **自动化程度**: 100%
-
-**项目成功概率**: 98% 🎯  
-**ROI**: 4000% 💰
+感谢所有开源项目的贡献者！
 
 ---
 
-*最后更新: 2025-01-29*  
-*版本: v1.0.0*
+**注意**: 本项目专为内网环境设计，确保在离线状态下也能正常工作。
