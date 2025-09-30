@@ -99,3 +99,4 @@ function Start-ScriptUpdate {
 if ($MyInvocation.InvocationName -ne '.') {
     Start-ScriptUpdate
 }
+
